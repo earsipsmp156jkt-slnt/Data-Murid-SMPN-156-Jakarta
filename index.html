@@ -34,26 +34,31 @@
 
     .main-content {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
 
-    .login-container { max-width: 420px; margin: 60px auto 20px auto; }
+    /* Ukuran Card Login Proporsional & Nyaman */
+    .login-container { 
+      width: 100%;
+      max-width: 400px; 
+    }
 
-    /* Desain Card Elegant & Simple */
     .custom-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.06);
+      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.08);
     }
 
-    /* Styling Logo Lokal */
     .app-logo {
-      width: 65px;
-      height: 65px;
+      width: 60px;
+      height: 60px;
       object-fit: contain;
-      border-radius: 14px;
-      margin-bottom: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
     }
 
     .input-group-text {
@@ -69,7 +74,7 @@
       border: 1px solid var(--border-color) !important;
       color: var(--text-main) !important;
       font-weight: 500;
-      padding: 0.65rem 0.9rem;
+      padding: 0.6rem 0.9rem;
     }
 
     .form-control::placeholder {
@@ -94,7 +99,7 @@
       color: #ffffff;
       border: none;
       transition: all 0.2s ease;
-      padding: 0.7rem;
+      padding: 0.65rem;
     }
 
     .btn-skyblue:hover {
@@ -117,10 +122,18 @@
       transition: all 0.3s ease;
     }
 
+    /* Wrapper Dashboard agar tidak terlalu full melebar */
+    .dashboard-wrapper {
+      max-width: 1320px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 15px;
+    }
+
     .navbar-custom {
       background: #ffffff;
       border-bottom: 1px solid var(--border-color);
-      padding: 0.85rem 0;
+      padding: 0.75rem 0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
 
@@ -128,7 +141,7 @@
       background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 16px;
-      padding: 1.25rem;
+      padding: 1.15rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
 
@@ -142,6 +155,7 @@
       font-weight: 700;
       border-bottom: 2px solid #bae6fd;
       padding: 12px;
+      font-size: 0.9rem;
     }
 
     .table-custom tbody tr {
@@ -164,15 +178,14 @@
       margin: 2px 0;
     }
 
-    /* Footer Copyright Simple & Elegant */
     .footer-copyright {
       text-align: center;
-      padding: 20px 0;
-      font-size: 0.82rem;
+      padding: 15px 0;
+      font-size: 0.8rem;
       color: var(--text-muted);
       border-top: 1px solid rgba(226, 232, 240, 0.6);
       background: rgba(255, 255, 255, 0.5);
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     .modal-content-custom {
@@ -205,20 +218,39 @@
       border: 1px solid var(--border-color);
       height: 100%;
     }
+
+    /* Toast Dialog Notifikasi Custom */
+    .toast-container-custom {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1055;
+    }
   </style>
 </head>
 <body>
 
+  <!-- TOAST NOTIFIKASI DIALOG BERHASIL LOGIN / LOGOUT -->
+  <div class="toast-container-custom">
+    <div id="notificationToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius: 12px;">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2 fw-semibold" id="toastMessage">
+          <!-- Pesan Dinamis -->
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
   <div class="main-content">
     <!-- LOGIN SECTION -->
     <div id="sectionLogin" class="container">
-      <div class="login-container">
-        <div class="custom-card p-4 p-md-4 text-center">
-          <!-- Logo Lokal logo.jpg -->
-          <img src="logo.jpg" alt="Logo Sekolah" class="app-logo" onerror="this.src='https://via.placeholder.com/65?text=Logo'">
+      <div class="login-container mx-auto">
+        <div class="custom-card p-4 text-center">
+          <img src="logo.jpg" alt="Logo Sekolah" class="app-logo" onerror="this.src='https://via.placeholder.com/60?text=Logo'">
           
           <h5 class="fw-bold mb-1" style="color: var(--text-main);">Arsip Digital Siswa</h5>
-          <p class="text-muted small mb-4">SMP Negeri 156 Jakarta</p>
+          <p class="text-muted small mb-3">SMP Negeri 156 Jakarta</p>
           
           <div id="alertLogin" class="alert alert-danger py-2 fs-6 d-none"></div>
 
@@ -231,7 +263,7 @@
               </div>
             </div>
 
-            <div class="text-start mb-4">
+            <div class="text-start mb-3">
               <label class="form-label small fw-semibold">Password</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
@@ -245,12 +277,12 @@
                 <div id="strengthBar" class="strength-bar"></div>
               </div>
               <div class="d-flex justify-content-between mt-1">
-                <span class="text-muted" style="font-size: 0.75rem;">Kekuatan Password:</span>
-                <small id="strengthLabel" class="fw-bold" style="font-size: 0.75rem; color: #64748b;">-</small>
+                <span class="text-muted" style="font-size: 0.72rem;">Kekuatan Password:</span>
+                <small id="strengthLabel" class="fw-bold" style="font-size: 0.72rem; color: #64748b;">-</small>
               </div>
             </div>
 
-            <button type="submit" id="btnLogin" class="btn btn-skyblue w-100 rounded-3 fw-semibold shadow-sm">
+            <button type="submit" id="btnLogin" class="btn btn-skyblue w-100 rounded-3 fw-semibold shadow-sm mt-2">
               <span id="btnText">Masuk Sekarang</span>
               <span id="btnSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
             </button>
@@ -260,63 +292,66 @@
     </div>
 
     <!-- DASHBOARD SECTION -->
-    <div id="sectionDashboard" class="d-none">
+    <div id="sectionDashboard" class="d-none w-100">
       <nav class="navbar-custom mb-4">
-        <div class="container d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center gap-3">
-            <img src="logo.jpg" alt="Logo" style="width: 42px; height: 42px; object-fit: contain; border-radius: 8px;" onerror="this.style.display='none'">
+        <div class="dashboard-wrapper d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-2 gap-md-3">
+            <img src="logo.jpg" alt="Logo" style="width: 38px; height: 38px; object-fit: contain; border-radius: 8px;" onerror="this.style.display='none'">
             <div>
-              <h6 class="mb-0 fw-bold" style="color: var(--text-main);">ARSIP DIGITAL DATA SISWA</h6>
-              <small class="text-muted" style="font-size: 0.75rem;"><i class="bi bi-geo-alt"></i> SMP Negeri 156 Jakarta</small>
+              <h6 class="mb-0 fw-bold fs-7 fs-md-6" style="color: var(--text-main);">ARSIP DIGITAL DATA SISWA</h6>
+              <small class="text-muted" style="font-size: 0.7rem;"><i class="bi bi-geo-alt"></i> SMP Negeri 156 Jakarta</small>
             </div>
           </div>
-          <div class="d-flex align-items-center gap-3">
-            <span class="badge fs-6 px-3 py-2 rounded-pill text-white" style="background: var(--primary-skyblue);" id="labelKelas">Kelas -</span>
+          <div class="d-flex align-items-center gap-2 gap-md-3">
+            <span class="badge fs-7 px-2 px-md-3 py-1.5 py-md-2 rounded-pill text-white" style="background: var(--primary-skyblue);" id="labelKelas">Kelas -</span>
             <div class="text-end d-none d-md-block">
               <div class="fw-semibold fs-6" style="color: var(--text-main);" id="labelNamaWalas">-</div>
               <small class="text-muted" id="labelRole" style="font-size: 0.75rem;">Wali Kelas</small>
             </div>
-            <button class="btn btn-outline-secondary btn-sm ms-2 rounded-3" onclick="location.reload()"><i class="bi bi-box-arrow-right"></i> Keluar</button>
+            <button class="btn btn-outline-secondary btn-sm ms-1 rounded-3" onclick="handleLogout()"><i class="bi bi-box-arrow-right"></i> <span class="d-none d-sm-inline">Keluar</span></button>
           </div>
         </div>
       </nav>
 
-      <div class="row g-3 mb-4">
-        <div class="col-md-3">
-          <div class="stat-card d-flex align-items-center gap-3">
-            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-people-fill fs-3"></i></div>
-            <div><div class="text-muted small">Total Siswa</div><h3 class="mb-0 fw-bold" id="statTotalSiswa">0</h3></div>
+      <div class="dashboard-wrapper pb-5">
+        <!-- Statistik Kartu -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="stat-card d-flex align-items-center gap-2 gap-md-3">
+              <div class="p-2.5 p-md-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-people-fill fs-4 fs-md-3"></i></div>
+              <div><div class="text-muted small" style="font-size: 0.75rem;">Total Siswa</div><h4 class="mb-0 fw-bold" id="statTotalSiswa">0</h4></div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card d-flex align-items-center gap-2 gap-md-3">
+              <div class="p-2.5 p-md-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-check-fill fs-4 fs-md-3"></i></div>
+              <div><div class="text-muted small" style="font-size: 0.75rem;">Berkas KK</div><h4 class="mb-0 fw-bold" id="statTotalKK">0</h4></div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card d-flex align-items-center gap-2 gap-md-3">
+              <div class="p-2.5 p-md-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-award-fill fs-4 fs-md-3"></i></div>
+              <div><div class="text-muted small" style="font-size: 0.75rem;">Berkas Ijazah</div><h4 class="mb-0 fw-bold" id="statTotalIjazah">0</h4></div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card d-flex align-items-center gap-2 gap-md-3">
+              <div class="p-2.5 p-md-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-text-fill fs-4 fs-md-3"></i></div>
+              <div><div class="text-muted small" style="font-size: 0.75rem;">Berkas Akte</div><h4 class="mb-0 fw-bold" id="statTotalAkte">0</h4></div>
+            </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="stat-card d-flex align-items-center gap-3">
-            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-check-fill fs-3"></i></div>
-            <div><div class="text-muted small">Berkas KK Terisi</div><h3 class="mb-0 fw-bold" id="statTotalKK">0</h3></div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stat-card d-flex align-items-center gap-3">
-            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-award-fill fs-3"></i></div>
-            <div><div class="text-muted small">Berkas Ijazah Terisi</div><h3 class="mb-0 fw-bold" id="statTotalIjazah">0</h3></div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stat-card d-flex align-items-center gap-3">
-            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-text-fill fs-3"></i></div>
-            <div><div class="text-muted small">Berkas Akte Terisi</div><h3 class="mb-0 fw-bold" id="statTotalAkte">0</h3></div>
-          </div>
-        </div>
-      </div>
 
-        <div class="custom-card p-4">
+        <!-- Tabel Konten -->
+        <div class="custom-card p-3 p-md-4">
           <div class="row g-3 justify-content-between align-items-center mb-4">
-            <div class="col-md-5">
+            <div class="col-12 col-md-5">
               <div class="position-relative">
                 <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3" style="color: var(--primary-skyblue);"></i>
                 <input type="text" id="searchInput" class="form-control rounded-3 ps-5" placeholder="Cari nama siswa, NIS, atau NIK...">
               </div>
             </div>
-            <div class="col-md-7 d-flex gap-2 justify-content-md-end">
+            <div class="col-12 col-md-7 d-flex gap-2 justify-content-md-end">
               <select id="filterKelasAdmin" class="form-select rounded-3 d-none" style="width: 170px;" onchange="fetchDataSiswa()">
                 <option value="ALL">Semua Kelas</option>
                 <option value="7A">Kelas 7A</option><option value="7B">Kelas 7B</option><option value="7C">Kelas 7C</option>
@@ -326,7 +361,7 @@
                 <option value="9A">Kelas 9A</option><option value="9B">Kelas 9B</option><option value="9C">Kelas 9C</option>
                 <option value="9D">Kelas 9D</option><option value="9E">Kelas 9E</option><option value="9F">Kelas 9F</option><option value="9G">Kelas 9G</option>
               </select>
-              <select id="filterGender" class="form-select rounded-3" style="width: 160px;">
+              <select id="filterGender" class="form-select rounded-3" style="width: 150px;">
                 <option value="ALL">Semua Gender</option>
                 <option value="L">Laki-laki (L)</option>
                 <option value="P">Perempuan (P)</option>
@@ -435,10 +470,23 @@
     let globalDataSiswa = [];
     let currentUser = null;
     let modalBiodataBS = null;
+    let toastObj = null;
 
     document.addEventListener("DOMContentLoaded", () => {
       modalBiodataBS = new bootstrap.Modal(document.getElementById('modalBiodata'));
+      toastObj = new bootstrap.Toast(document.getElementById('notificationToast'), { delay: 3500 });
     });
+
+    // Fungsi Menampilkan Dialog Notifikasi Toast
+    function showNotification(message, type = 'success') {
+      const toastEl = document.getElementById('notificationToast');
+      const toastMsg = document.getElementById('toastMessage');
+      
+      toastEl.className = `toast align-items-center text-white border-0 shadow-lg ${type === 'success' ? 'bg-success' : 'bg-danger'}`;
+      toastMsg.innerHTML = `<i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'} fs-5"></i> <span>${message}</span>`;
+      
+      toastObj.show();
+    }
 
     function showBiodataModal(nama, nik, ttl, agama, hp, namaAyah, namaIbu, alamat) {
       document.getElementById('modalNamaSiswa').textContent = nama;
@@ -515,7 +563,10 @@
           toggleLoading(false);
           if (res.success) {
             currentUser = res;
-            loadDashboard();
+            showNotification(`Selamat datang, ${currentUser.nama}! Login berhasil.`, 'success');
+            setTimeout(() => {
+              loadDashboard();
+            }, 800);
           } else {
             alertBox.textContent = res.message;
             alertBox.classList.remove('d-none');
@@ -526,6 +577,13 @@
           alertBox.textContent = "Koneksi ke Apps Script gagal. Periksa koneksi internet.";
           alertBox.classList.remove('d-none');
         });
+    }
+
+    function handleLogout() {
+      showNotification("Anda telah berhasil keluar (Log Out).", 'success');
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
     }
 
     function toggleLoading(isLoading) {
@@ -553,7 +611,7 @@
       document.getElementById('filterGender').addEventListener('change', applyFilter);
     }
 
-   function fetchDataSiswa() {
+    function fetchDataSiswa() {
       const kelasFilterAdmin = document.getElementById('filterKelasAdmin').value;
       fetch(`${API_URL}?action=getData&role=${currentUser.role}&kelasUser=${currentUser.kelas}&kelasFilter=${kelasFilterAdmin}`)
         .then(res => res.json())
@@ -562,7 +620,7 @@
           document.getElementById('statTotalSiswa').textContent = data.length;
           document.getElementById('statTotalKK').textContent = data.filter(s => s.linkKK !== "").length;
           document.getElementById('statTotalIjazah').textContent = data.filter(s => s.linkIjazah !== "").length;
-          document.getElementById('statTotalAkte').textContent = data.filter(s => s.linkAkte !== "").length; // <-- Tambahan hitung Akte
+          document.getElementById('statTotalAkte').textContent = data.filter(s => s.linkAkte !== "").length;
           renderTable(globalDataSiswa);
         });
     }
