@@ -409,7 +409,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwVtgcHJ6Asg5rgL5z0y6q1Zm2VWd8Mplv2kzbUiuwgWim94-HqHDmFUGREvNeGvHQ/exec"; // Masukkan URL Apps Script Anda
+    const API_URL = "https://script.google.com/macros/s/AKfycbxvlz0qtJRdYwer64NNCiOjvVdJiCzbwsTIfQCqd1_Jr7cWA3AwT_k3eYoSLt-S6KPC/exec"; // Masukkan URL Apps Script Anda
 
     let globalDataSiswa = [];
     let currentUser = null;
@@ -564,6 +564,9 @@
         const btnIjz = siswa.linkIjazah 
           ? `<a href="${siswa.linkIjazah}" target="_blank" class="btn-action btn-outline-success"><i class="bi bi-file-earmark-pdf"></i> Ijazah SD</a>`
           : `<span class="btn-action btn-outline-secondary opacity-50"><i class="bi bi-dash-circle"></i> Ijazah (-)</span>`;
+        const btnAkte = siswa.linkAkte 
+          ? `<a href="${siswa.linkAkte}" target="_blank" class="btn-action btn-outline-warning text-dark"><i class="bi bi-file-earmark-pdf"></i> Akte</a>`
+          : `<span class="btn-action btn-outline-secondary opacity-50"><i class="bi bi-dash-circle"></i> Akte (-)</span>`;
 
         // Sanitasi karakter kutip agar string JS aman
         const namaSafe = (siswa.nama || "").replace(/'/g, "\\'");
