@@ -281,27 +281,32 @@
         </div>
       </nav>
 
-      <div class="container pb-5">
-        <div class="row g-3 mb-4">
-          <div class="col-md-4">
-            <div class="stat-card d-flex align-items-center gap-3">
-              <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-people-fill fs-3"></i></div>
-              <div><div class="text-muted small">Total Siswa</div><h3 class="mb-0 fw-bold" id="statTotalSiswa">0</h3></div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-card d-flex align-items-center gap-3">
-              <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-check-fill fs-3"></i></div>
-              <div><div class="text-muted small">Berkas KK Terisi</div><h3 class="mb-0 fw-bold" id="statTotalKK">0</h3></div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-card d-flex align-items-center gap-3">
-              <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-award-fill fs-3"></i></div>
-              <div><div class="text-muted small">Berkas Ijazah Terisi</div><h3 class="mb-0 fw-bold" id="statTotalIjazah">0</h3></div>
-            </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card d-flex align-items-center gap-3">
+            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-people-fill fs-3"></i></div>
+            <div><div class="text-muted small">Total Siswa</div><h3 class="mb-0 fw-bold" id="statTotalSiswa">0</h3></div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="stat-card d-flex align-items-center gap-3">
+            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-check-fill fs-3"></i></div>
+            <div><div class="text-muted small">Berkas KK Terisi</div><h3 class="mb-0 fw-bold" id="statTotalKK">0</h3></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card d-flex align-items-center gap-3">
+            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-award-fill fs-3"></i></div>
+            <div><div class="text-muted small">Berkas Ijazah Terisi</div><h3 class="mb-0 fw-bold" id="statTotalIjazah">0</h3></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card d-flex align-items-center gap-3">
+            <div class="p-3 rounded-3" style="background: #e0f2fe; color: #0284c7;"><i class="bi bi-file-earmark-text-fill fs-3"></i></div>
+            <div><div class="text-muted small">Berkas Akte Terisi</div><h3 class="mb-0 fw-bold" id="statTotalAkte">0</h3></div>
+          </div>
+        </div>
+      </div>
 
         <div class="custom-card p-4">
           <div class="row g-3 justify-content-between align-items-center mb-4">
@@ -548,7 +553,7 @@
       document.getElementById('filterGender').addEventListener('change', applyFilter);
     }
 
-    function fetchDataSiswa() {
+   function fetchDataSiswa() {
       const kelasFilterAdmin = document.getElementById('filterKelasAdmin').value;
       fetch(`${API_URL}?action=getData&role=${currentUser.role}&kelasUser=${currentUser.kelas}&kelasFilter=${kelasFilterAdmin}`)
         .then(res => res.json())
@@ -557,6 +562,7 @@
           document.getElementById('statTotalSiswa').textContent = data.length;
           document.getElementById('statTotalKK').textContent = data.filter(s => s.linkKK !== "").length;
           document.getElementById('statTotalIjazah').textContent = data.filter(s => s.linkIjazah !== "").length;
+          document.getElementById('statTotalAkte').textContent = data.filter(s => s.linkAkte !== "").length; // <-- Tambahan hitung Akte
           renderTable(globalDataSiswa);
         });
     }
@@ -584,7 +590,7 @@
           : `<span class="btn-action btn-outline-secondary opacity-50"><i class="bi bi-dash-circle"></i> Ijazah (-)</span>`;
 
         const btnAkte = siswa.linkAkte 
-          ? `<a href="${siswa.linkAkte}" target="_blank" class="btn-action btn-outline-warning text-dark"><i class="bi bi-file-earmark-pdf"></i> Akte</a>`
+          ? `<a href="${siswa.linkAkte}" target="_blank" class="btn-action btn-outline-primary"><i class="bi bi-file-earmark-pdf"></i> Akte</a>`
           : `<span class="btn-action btn-outline-secondary opacity-50"><i class="bi bi-dash-circle"></i> Akte (-)</span>`;
 
         const namaSafe = (siswa.nama || "").replace(/'/g, "\\'");
